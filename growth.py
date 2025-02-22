@@ -77,49 +77,26 @@ if uploaded_files:
             st.subheader("🔄 Conversion Options")
             conversion_type = st.radio(f"Convert {file.name} to:", ["CSV", "Excel"], key=file.name)
 
-if st.button(f"Convert{file.name}"):
-    buffer = BytesIO()
-    
-    if conversion_type == "CSV":
-        df.to_csv(buffer, index=False)  # Fixed the typo
-        file_name = file.name.replace(file_ext, ".csv")
-        mine_type = "text/csv"
 
-    elif conversion_type == "Excel":
-        df.to_excel(buffer, index=False)
-        file_name = file.name.replace(file_ext, ".xlsx")
-        mine_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            if st.button(f"Convert{file.name}"):
+                buffer = BytesIO()
+                if conversion_type == "CSV":
+                    df.to_csv(buffer, index=False)
+                    file_name = file.name.replace(file_ext, ".csv")
+                    mime_type = "text/csv"
 
-    buffer.seek(0)
+                elif conversion_type == "Excel":
+                    df.to_excel(buffer, index=False)
+                    file_name = file.name.replace(file_ext, ".xlsx")
+                    mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                buffer.seek(0)
 
-    st.download_button(
-        label=f"Download {file.name} as {conversion_type}",
-        data=buffer,
-        file_name=file_name,
-        mime=mine_type  # Fixed typo from 'mine' to 'mime'
-    )
+                st.download_button(
+                    label=f"Download {file.name} as {conversion_type}",
+                    data=buffer,
+                    file_name=file_name,
+                    mime=mime_type
+                )
 
 st.success("🎉 All files processed successfully!")
-
-#             if st.button(f"Convert{file.name}"):
-#                 buffer = BytesIO()
-#                 if conversion_type == "CSV":
-#                     df.to.csv(buffer, index=False)
-#                     file_name = file.name.replace(file_ext, ".csv")
-#                     mine_type = "text/csv"
-
-#                 elif conversion_type == "Excel":
-#                     df.to_excel(buffer, index=False)
-#                     file_name = file.name.replace(file_ext, ".xlsx")
-#                     mine_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-#                 buffer.seek(0)
-
-#                 st.download_button(
-#                     label=f"Download {file.name} as {conversion_type}",
-#                     data=buffer,
-#                     file_name=file_name,
-#                     mine=mine_type
-#                 )
-
-# st.success("🎉 All files processed successfully!")
 
